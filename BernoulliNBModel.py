@@ -3,7 +3,7 @@ import pandas as pd
 
 train_table = pd.read_csv("reddit_train.csv")
 train_table = train_table.drop(columns='id')
-comments_train = train_table.iloc[:, 0].values
+comments_train = train_table.iloc[:1000, 0].values
 subreddits = train_table.iloc[:,1].values
 classes = np.unique(subreddits)
 
@@ -41,7 +41,7 @@ def predit(C, V, prior, condprob, D):
 					score[c] += np.log(condprob[t][c])
 				else:
 					score[c] += np.log(1-condprob[t][c])
-		predict_y += C[score.index(np.amax(score))]
+		predict_y.append(C[np.argmax(score)])
 	return predict_y
 
 def extract_vocabulary(X):
@@ -66,3 +66,4 @@ def count_docs_in_class_term(dictionary, c, t):
 
 V, prior, condprob = fit(comments_train, subreddits)
 predict_y = predit(np.unique(subreddits), V, prior, condprob, comments_test)
+print(predict_y)
