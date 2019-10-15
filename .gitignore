@@ -1,9 +1,8 @@
-out.csv
 reddit_test.csv
 reddit_train.csv
 Untitled.ipynb
-test.py
-out1.csv
 Untitled1.ipynb
 .ipynb_checkpoints/Untitled-checkpoint.ipynb
 .ipynb_checkpoints/Untitled1-checkpoint.ipynb
+out_lr.csv
+out_mnb.csv
