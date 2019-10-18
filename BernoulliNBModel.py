@@ -8,18 +8,13 @@ import pandas as pd
 import numpy as np
 import pandas as pd
 
-train_table = pd.read_csv("reddit_train.csv")
-train_table = train_table.drop(columns='id')
-comments_train = train_table.iloc[:500, 0].values
-subreddits = train_table.iloc[:500,1].values
-classes = np.unique(subreddits)
-
-# test_table = pd.read_csv("reddit_test.csv")
-# test_table = test_table.drop(columns='id')
-# comments_test = test_table.iloc[:, 0].values
+df = pd.read_csv("reddit_train.csv")
+X = df["comments"].values
+y = df["subreddits"].values
+classes = np.unique(y)
 
 # split the dataset into training and validation sets
-X_train, X_test, y_train, y_test = train_test_split(comments_train, subreddits, train_size = 0.8, test_size = 0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8, test_size = 0.2)
 
 # vectorize the dataset: used tf-idf method here
 vectorizer = CountVectorizer(stop_words='english')
@@ -42,8 +37,8 @@ def fit(X, y):
 
 def predit(X_test, X_train, prior, condprob):
 	predict_y = []
+	score = np.log(prior)
 	for x in X_test:
-		score = np.log(prior)
 		for c in range(len(classes)):
 			for t in range(X_train.shape[1]):
 				if x[t] != 0:
@@ -64,6 +59,6 @@ def accuracy(y_true, y_pred):
     accuracy = np.sum(y_true == y_pred) / len(y_true)
     return accuracy
 
-prior, condprob = fit(vectors_train.toarray(), subreddits)
+prior, condprob = fit(vectors_train.toarray(), y_train)
 y_pred = predit(vectors_test.toarray(), vectors_train.toarray(), prior, condprob)
 print(accuracy(y_test, y_pred))
