@@ -8,9 +8,11 @@ import pandas as pd
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv("reddit_train.csv")
-X = df["comments"].values
-y = df["subreddits"].values
+train_table = pd.read_csv("reddit_train.csv")
+train_table = train_table.drop(columns='id')
+X = train_table.iloc[:, 0].values
+y = train_table.iloc[:,1].values
+
 classes = np.unique(y)
 
 # split the dataset into training and validation sets
