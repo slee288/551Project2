@@ -23,7 +23,7 @@ from sklearn.model_selection import GridSearchCV
 
 X_final_train = tfidf_vectorizer.fit_transform(X)
 
-n_folds = 4
+n_folds = 5
 
 tuned_parameters = {
 	'n_neighbors': [140, 150, 160, 170, 180],
